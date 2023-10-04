@@ -1,1 +1,1 @@
-# ic-bot
+# Querio ICP Bot
