@@ -4,6 +4,8 @@ const { DB } = require("./db");
 const { canisterCodeHash } = require("./canisterinfo");
 const { ContentMinerClient } = require('./client');
 
+const pause = (timeout) => new Promise((res) => setTimeout(res, timeout * 1000));
+
 class Crawler {
     constructor(ic_api, db_file, content_miner_api) {
         this.ic_api = ic_api;
@@ -83,6 +85,8 @@ class Crawler {
                                     }
                                 }
                             }
+
+                            await pause(1);
                         }
 
                         offset += limit;
