@@ -24,6 +24,12 @@ class Crawler {
         try {
             metadata.domain = domain;
             let response = await axios(this.getCanisterUrl(canister_id, domain), { timeout: 10000 });
+            const html_data = response?.data;
+            const titleMatch = /<title>(.*?)<\/title>/.exec(html_data);
+
+            if (titleMatch?.length == 2) {
+                metadata.title = titleMatch[1];
+            }
 
             metadata.code_hash = await canisterCodeHash(canister_id);
             metadata.status = response?.status;
@@ -82,7 +88,7 @@ class Crawler {
                                         let url = this.getCanisterUrl(c.canister_id, c.domain);
  
                                         await this.contentMinerClient.post('/save_task', {task: { id: c.canister_id, url: url, chains: '1' }});
-                                    }
+                                    } 
                                 }
                             }
 
