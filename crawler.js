@@ -3,6 +3,7 @@ const { INFO, ERROR } = require("./logs");
 const { DB } = require("./db");
 const { canisterCodeHash } = require("./canisterinfo");
 const { ContentMinerClient } = require('./client');
+const cheerio = require("cheerio");
 
 const pause = (timeout) => new Promise((res) => setTimeout(res, timeout * 1000));
 
@@ -25,10 +26,14 @@ class Crawler {
             metadata.domain = domain;
             let response = await axios(this.getCanisterUrl(canister_id, domain), { timeout: 10000 });
             const html_data = response?.data;
-            const titleMatch = /<title>(.*?)<\/title>/.exec(html_data);
 
-            if (titleMatch?.length == 2) {
-                metadata.title = titleMatch[1];
+            if (response?.status == 200 && html_data) {
+                const $ = cheerio.load(html_data);
+                let title = $('meta[property="og:title"]').attr("content") ||
+                    $("title").text() ||
+                    $('meta[name="title"]').attr("content");
+
+                metadata.title = title.replace(/(\r\n|\n|\r)/gm, "");
             }
 
             metadata.code_hash = await canisterCodeHash(canister_id);
