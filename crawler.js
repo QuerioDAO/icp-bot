@@ -50,7 +50,7 @@ class Crawler {
 
     async run() {
         let offset = 0;
-        const limit = 100;
+        const limit = 50;
 
         try {
             const response = await axios(this.ic_api + `?offset=${offset}&limit=${limit}`);
@@ -96,9 +96,10 @@ class Crawler {
                                     } 
                                 }
                             }
-
-                            await pause(1);
+                            
                         }
+
+                        await pause(2);
 
                         offset += limit;
 
