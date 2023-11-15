@@ -1,4 +1,4 @@
-# Querio ICP Bot
+# ICP Bot
 
 https://querio.io
 
