@@ -40,13 +40,15 @@ class DB {
                         ${formatNull(c.code_hash)}, \
                         ${formatInt(c.status)}, \
                         ${formatNull(c.domain)},
+                        ${formatNull(c.title)}, \
                         datetime('now')`;
 
           this.db.run(`
             UPDATE canisters SET code_hash= ${formatNull(c.code_hash)}, \
             status=${formatInt(c.status)}, \
             updated_at=datetime('now'), \
-            domain=${formatNull(formatText(c.domain))}
+            domain=${formatNull(formatText(c.domain))},
+            title=${formatNull(formatText(c.title))}
             WHERE id='${c.canister_id}';`,
             (err) => {
               if (err) {
@@ -56,7 +58,7 @@ class DB {
             });
 
           this.db.run(`
-            INSERT INTO canisters (id, code_hash, status, domain, updated_at ) \
+            INSERT INTO canisters (id, code_hash, status, domain, title, updated_at ) \
             SELECT ${values} WHERE NOT EXISTS (SELECT 1 FROM canisters WHERE id='${c.canister_id}');`,
             (err) => {
               if (err) {

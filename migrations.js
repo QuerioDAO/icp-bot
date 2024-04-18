@@ -39,6 +39,7 @@ async function runMigrations(dbPath) {
                             code_hash text,
                             status int,
                             domain text,
+                            title text,
                             updated_at time NOT NULL,
                             UNIQUE (id)
                         );
