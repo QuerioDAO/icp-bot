@@ -89,14 +89,16 @@ class Crawler {
                                 await this.db.saveCanisters(canisters_metadata);
 
                                 for (const c of canisters_metadata) {
-                                    if ((c.status == 200) && (c.title != 'Cycle Wallet')) {
+                                    if ((c.status == 200) &&
+                                        (c.title != 'Cycle Wallet') &&
+                                        (c.title != 'NFT Info')) {
                                         let url = this.getCanisterUrl(c.canister_id, c.domain);
- 
-                                        await this.contentMinerClient.post('/save_task', {task: { id: c.canister_id, url: url, chains: '1' }});
-                                    } 
+
+                                        await this.contentMinerClient.post('/save_task', { task: { id: c.canister_id, url: url, chains: '1' } });
+                                    }
                                 }
                             }
-                            
+
                         }
 
                         await pause(2);
