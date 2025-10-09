@@ -17,8 +17,8 @@ const mainLoop = async (_) => {
         while (!stop) {
             await crawler.run();
 
-            INFO(`pause for 24 hours`);
-            await pause(24 * 3600);
+            INFO(`pause for 72 hours`);
+            await pause(72 * 3600);
         }
     } catch (error) {
         ERROR(`[mainLoop] error :`);
